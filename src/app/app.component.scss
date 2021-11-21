@@ -5,8 +5,17 @@
 .form {
     display: flex;
     justify-content: center;
+    align-items: center;
 
     mat-form-field {
         margin: 2%;
     }
+}
+
+.table {
+    margin: 2%;
+}
+
+.graphic {
+    margin: 2%;
 }

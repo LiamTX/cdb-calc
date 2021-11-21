@@ -21,5 +21,18 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+
+    <div>
+      <button mat-raised-button color="primary" (click)="calcCdb()">Primary</button>
+    </div>
+
+  </div>
+
+  <div class="table" *ngIf="haveData">
+    <app-table [items]="items"></app-table>
+  </div>
+
+  <div class="graphic">
+    <canvas #graphic></canvas>
   </div>
 </div>

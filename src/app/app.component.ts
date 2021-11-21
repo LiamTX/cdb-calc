@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { format } from 'date-fns';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from './services/api.service';
+import { Chart, registerables } from 'chart.js';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +15,82 @@ export class AppComponent {
   cdbRate: number = 0;
   currentDate: Date = new Date();
 
-  constructor(private apiService: ApiService) { }
+  haveData: boolean = false;
+  items: any[] = [];
 
-  
+  @ViewChild('graphic', { static: true })
+  // @ts-ignore
+  element: ElementRef;
+
+  constructor(
+    private apiService: ApiService,
+    private toastr: ToastrService
+  ) {
+    Chart.register(...registerables);
+  }
+
+  calcCdb() {
+    if (this.cdbRate == 0) {
+      this.toastr.warning('Preencha o cdb rate!', 'Ops', {
+        positionClass: 'toast-top-center'
+      });
+      return
+    }
+
+    const payload = {
+      investmentDate: format(this.investmentDate, 'yyyy-MM-dd'),
+      cdbRate: this.cdbRate,
+      currentDate: format(this.currentDate, 'yyyy-MM-dd')
+    }
+
+    this.apiService.calcCdb(payload).then(resp => {
+      resp.subscribe(data => {
+        if (data.length != 0) {
+          this.haveData = true;
+        }
+
+        this.items = data;
+
+        this.createChartGraphic()
+        console.log(data);
+      }, err => {
+        console.log(err)
+      });
+    });
+  }
+
+  createChartGraphic() {
+    let labels = [];
+    let datas = [];
+
+    for (let item of this.items) {
+      labels.push(item.date);
+      datas.push(item.unitPrice);
+    }
+
+    new Chart(this.element.nativeElement, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            data: datas,
+            borderColor: 'red'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Doughnut Chart'
+          }
+        }
+      },
+    });
+  }
 }
