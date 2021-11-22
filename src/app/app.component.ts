@@ -54,6 +54,12 @@ export class AppComponent {
       resp.subscribe(data => {
         if (data.length != 0) {
           this.haveData = true;
+        } else {
+          this.toastr.error('Nenhum dado inserido, faça upload de um csv na nossa api para consultar esses dados', 'Ops', {
+            positionClass: 'toast-top-center'
+          });
+
+          return;
         }
 
         this.items = data;
@@ -71,7 +77,7 @@ export class AppComponent {
     if (this.chart) {
       this.chart.destroy();
     }
-    
+
     let labels = [];
     let datas = [];
 
