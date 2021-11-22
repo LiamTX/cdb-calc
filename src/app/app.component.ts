@@ -15,6 +15,11 @@ export class AppComponent {
   cdbRate: number = 0;
   currentDate: Date = new Date();
 
+  loading = false;
+
+  // @ts-ignore
+  chart: Chart;
+
   haveData: boolean = false;
   items: any[] = [];
 
@@ -37,6 +42,8 @@ export class AppComponent {
       return
     }
 
+    this.loading = true;
+
     const payload = {
       investmentDate: format(this.investmentDate, 'yyyy-MM-dd'),
       cdbRate: this.cdbRate,
@@ -52,14 +59,19 @@ export class AppComponent {
         this.items = data;
 
         this.createChartGraphic()
-        console.log(data);
+        this.loading = false;
       }, err => {
-        console.log(err)
+        console.log(err);
+        this.loading = true;
       });
     });
   }
 
   createChartGraphic() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    
     let labels = [];
     let datas = [];
 
@@ -68,12 +80,14 @@ export class AppComponent {
       datas.push(item.unitPrice);
     }
 
-    new Chart(this.element.nativeElement, {
+    this.chart = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
         labels,
         datasets: [
           {
+            label: 'Data',
+            backgroundColor: 'red',
             data: datas,
             borderColor: 'red'
           }
@@ -82,15 +96,14 @@ export class AppComponent {
       options: {
         responsive: true,
         plugins: {
-          legend: {
-            position: 'top',
-          },
           title: {
             display: true,
-            text: 'Chart.js Doughnut Chart'
+            text: 'Grafico da pesquisa'
           }
         }
       },
     });
+
+
   }
 }

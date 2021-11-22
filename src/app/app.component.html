@@ -22,8 +22,9 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <div>
-      <button mat-raised-button color="primary" (click)="calcCdb()">Primary</button>
+    <div class="actions">
+      <button mat-raised-button [class.button-spinner]="loading" [disabled]="loading" color="primary"
+        (click)="calcCdb()">Calcular</button>
     </div>
 
   </div>
