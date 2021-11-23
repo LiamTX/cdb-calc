@@ -34,7 +34,9 @@ export class AppComponent {
     Chart.register(...registerables);
   }
 
+  // Main function to calc cdb
   calcCdb() {
+    // Verify inputs
     if (this.cdbRate == 0) {
       this.toastr.warning('Preencha o cdb rate!', 'Ops', {
         positionClass: 'toast-top-center'
@@ -44,20 +46,25 @@ export class AppComponent {
 
     this.loading = true;
 
+    // Create payload
     const payload = {
       investmentDate: format(this.investmentDate, 'yyyy-MM-dd'),
       cdbRate: this.cdbRate,
       currentDate: format(this.currentDate, 'yyyy-MM-dd')
     }
 
+    // Call api endpoint to calculate cdb
     this.apiService.calcCdb(payload).then(resp => {
       resp.subscribe(data => {
         if (data.length != 0) {
           this.haveData = true;
         } else {
-          this.toastr.error('Nenhum dado inserido, faça upload de um csv na nossa api para consultar esses dados', 'Ops', {
-            positionClass: 'toast-top-center'
+          this.toastr.error('Nenhum histórico cdi encontrado com esse filtro, faça upload de um csv na nossa api para popular os dados.', 'Ops!', {
+            positionClass: 'toast-top-center',
+            timeOut: 8000
           });
+
+          this.loading = false;
 
           return;
         }
@@ -73,6 +80,7 @@ export class AppComponent {
     });
   }
 
+  // Create the cdb graphic with chart.js
   createChartGraphic() {
     if (this.chart) {
       this.chart.destroy();

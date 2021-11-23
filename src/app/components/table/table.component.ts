@@ -9,12 +9,15 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class TableComponent implements OnInit, AfterViewInit {
 
+  // Input sended by app-component
   @Input()
   items: any[] = [];
 
+  // Headers table
   displayedColumns: string[] = ['Data', 'Preço unitario'];
   // exampleDatabase: ExampleHttpDatabase | null;
   // @ts-ignore
+  // Data table
   data: MatTableDataSource<any>;
   resultsLength = 0;
   isLoadingResults = false;

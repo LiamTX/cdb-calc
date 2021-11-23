@@ -47,3 +47,10 @@
     border-top-color: #000000;
     animation: spinner 0.8s linear infinite;
 }
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}

@@ -29,6 +29,10 @@
 
   </div>
 
+  <div *ngIf="loading" class="loading-spinner">
+    <app-spinner></app-spinner>
+  </div>
+
   <div class="table" *ngIf="haveData">
     <app-table [items]="items"></app-table>
   </div>

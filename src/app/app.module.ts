@@ -19,12 +19,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ToastrModule } from 'ngx-toastr';
 import { TableComponent } from './components/table/table.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    TableComponent
+    TableComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
