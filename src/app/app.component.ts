@@ -36,6 +36,11 @@ export class AppComponent {
 
   // Main function to calc cdb
   calcCdb() {
+    this.items = [];
+    if(this.chart) {
+      this.chart.destroy();
+    }
+
     // Verify inputs
     if (this.cdbRate == 0) {
       this.toastr.warning('Preencha o cdb rate!', 'Ops', {
