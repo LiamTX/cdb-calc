@@ -36,8 +36,7 @@ export class AppComponent {
 
   // Main function to calc cdb
   calcCdb() {
-    this.items = [];
-    if(this.chart) {
+    if (this.chart) {
       this.chart.destroy();
     }
 
@@ -69,6 +68,7 @@ export class AppComponent {
             timeOut: 8000
           });
 
+          this.items = [];
           this.loading = false;
 
           return;
